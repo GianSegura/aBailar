@@ -1,12 +1,14 @@
-import { Image, StyleSheet } from 'react-native';
-
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { StyleSheet, Image, Platform } from 'react-native';
+import { Button } from 'react-native-paper';
+import { Collapsible } from '@/components/Collapsible';
+import { ExternalLink } from '@/components/ExternalLink';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Button } from 'react-native-paper';
 import { router } from 'expo-router';
 
-export default function HomeScreen() {
+export default function LoginScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -17,11 +19,11 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Index</ThemedText>
+        <ThemedText type="title">Login</ThemedText>
       </ThemedView>
-      <Button icon="camera" mode="contained" onPress={() => router.navigate('login')}>
-        Entrar
-      </Button> 
+      <Button icon="camera" mode="contained" onPress={() => router.replace('(logged)')}>
+        Login
+      </Button>
     </ParallaxScrollView>
   );
 }

@@ -51,7 +51,6 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="(notLogged)" options={{ headerShown: true }} />
           <Stack.Screen name="(logged)" options={{ headerShown: true }} />
-          <Stack.Screen name="+not-found" />
         </Stack>
       </PaperProvider>
     </ThemeProvider>
