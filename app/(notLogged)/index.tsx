@@ -3,8 +3,8 @@ import { Image, StyleSheet } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Button } from 'react-native-paper';
 import { router } from 'expo-router';
+import { ThemedButton } from '@/components/ThemedButton';
 
 export default function HomeScreen() {
   return (
@@ -17,11 +17,14 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Index</ThemedText>
+        <ThemedText type="title"></ThemedText>
       </ThemedView>
-      <Button icon="camera" mode="contained" onPress={() => router.navigate('login')}>
-        Entrar
-      </Button> 
+      <ThemedButton onPress={() => router.navigate('register')}>
+        Crea cuenta aBailar
+      </ThemedButton>
+      <ThemedButton onPress={() => router.navigate('login')}>
+        Iniciar sesión
+      </ThemedButton>
     </ParallaxScrollView>
   );
 }

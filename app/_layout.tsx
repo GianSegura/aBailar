@@ -1,6 +1,6 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Slot, Stack, useRootNavigationState } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
@@ -8,13 +8,14 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { PaperProvider } from 'react-native-paper';
 import { onAuthStateChanged } from 'firebase/auth';
 import { router } from 'expo-router';
-import { getApp, getAuth } from '@/utils/firebase';
+import { getAuth } from '@/utils/firebase';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [isAdmin, setIsAdmin] = useState(false);
+  const rootNavigationState = useRootNavigationState();
+  // const [isAdmin, setIsAdmin] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme
@@ -41,16 +42,16 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  if (!loaded) {
-    return null;
+  if (!loaded && !rootNavigationState?.key) {
+    return <Slot />;
   }
 
   return (
     <ThemeProvider value={theme}>
       <PaperProvider theme={theme}>
         <Stack>
-          <Stack.Screen name="(notLogged)" options={{ headerShown: true }} />
-          <Stack.Screen name="(logged)" options={{ headerShown: true }} />
+          <Stack.Screen name="(notLogged)" options={{ headerShown: false }} />
+          <Stack.Screen name="(logged)" options={{ headerShown: false }} />
         </Stack>
       </PaperProvider>
     </ThemeProvider>
