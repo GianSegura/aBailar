@@ -45,7 +45,10 @@ export default function LoginScreen() {
           if (!isEmailVerified) {
               signOut(auth);
               throw "emailNotVerified";
-          } 
+          }
+          // SignIn Successfull
+          console.log('credentials: ', credentials);
+          router.replace('(logged)')
       });
       } catch (err) {
         if (err === "emailNotVerified") {
@@ -54,7 +57,6 @@ export default function LoginScreen() {
           console.log('Usuario o contraseña incorrecta')
         }
     }
-      // router.replace('(logged)')
     },
   });
 
@@ -85,7 +87,7 @@ export default function LoginScreen() {
         Inicia sesión
       </ThemedButton>
       <ThemedText onPress={() => router.replace('register')}>Regístrate</ThemedText>
-      <ThemedText onPress={() => router.replace('login')}>¿Has olvidado tu contraseña?</ThemedText>
+      <ThemedText onPress={() => router.navigate('forgotPassword')}>¿Has olvidado tu contraseña?</ThemedText>
     </ThemedView>
   );
 }

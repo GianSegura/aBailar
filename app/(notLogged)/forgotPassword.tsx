@@ -1,50 +1,78 @@
-import { StyleSheet, Image } from 'react-native';
-import { Button, Text, TextInput } from 'react-native-paper';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { router } from 'expo-router';
+import { HelperText  } from 'react-native-paper';
+import { useFormik } from 'formik';
+import * as Yup from "yup";
+import { auth } from '@/utils/firebase';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import React from 'react';
+import { ThemedView } from '@/components/ThemedView';
+import { StyleSheet } from 'react-native';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedTextInput } from '@/components/ThemedTextInput';
+import { ThemedButton } from '@/components/ThemedButton';
+
+interface ForgotPasswordFormValues {
+  email: string;
+}
+
+const initialValues: ForgotPasswordFormValues = { 
+  email: '',
+};
+
+const validationSchema = Yup.object({
+  email: Yup.string()
+    .email("El email no es correcto")
+    .required("El email es obligatorio"),
+});
 
 export default function ForgotPasswordScreen() {
-  const [text, setText] = React.useState("");
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    validateOnChange: false,
+    onSubmit: async (formValue) => {
+      try {
+        await sendPasswordResetEmail(
+          auth,
+          formValue.email,
+        ).then(() => {
+          console.log('En caso de que el correo esté en nuestra BBDD, mail enviado');
+      });
+      } catch (err) {
+        if (err === "emailNotVerified") {
+          console.log('Email no verificado')
+        } else {
+          console.log('Usuario o contraseña incorrecta')
+        }
+    }
+      // router.replace('(logged)')
+    },
+  });
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <Text variant="headlineLarge" onPress={() => router.replace('login')}>Bienvenido a aBailar</Text>
-      <TextInput
+    <ThemedView style={styles.container}>
+      <ThemedText>Restablecimiento de contraseña</ThemedText>
+      <ThemedTextInput
         label="Email"
-        value={text}
-        onChangeText={text => setText(text)}
+        value={formik.values.email}
+        onChangeText={(text) => formik.setFieldValue("email", text)}
       />
-      <Button icon="camera" mode="contained" onPress={() => router.replace('(logged)')}>
-        Inicia sesión
-      </Button>
-      <Text variant="bodySmall" onPress={() => router.replace('register')}>Regístrate</Text>
-      <Text variant="bodySmall" onPress={() => router.replace('login')}>¿Has olvidado tu contraseña?</Text>
-    </ParallaxScrollView>
+      {!!formik.errors.email && (
+        <HelperText type="error">
+          {formik.errors.email}
+        </HelperText>
+      )}
+      <ThemedButton onPress={() => formik.handleSubmit()}>
+        Enviar
+      </ThemedButton>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  container: {
+    flex: 1,
+    padding: 32,
+    gap: 16,
+    overflow: 'hidden',
   },
 });
