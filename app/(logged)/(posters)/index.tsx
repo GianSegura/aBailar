@@ -20,7 +20,7 @@ export default function HomeScreen() {
       }>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">¡POSTERS!</ThemedText>
-        <ThemedText type="title">{ userData?.userData?.email }</ThemedText>
+        {/* <ThemedText type="title">{ userData?.userData?.email }</ThemedText> */}
       </ThemedView>
     </ParallaxScrollView>
   );

@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
 import React, { useState } from 'react';
+import { StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedTextInput } from '@/components/ThemedTextInput';
@@ -89,7 +89,7 @@ export default function RegisterScreen() {
         validation={formik.errors.password}
         right={
           <TextInput.Icon 
-            icon={showPassword ? 'eye-off' : 'eye'}
+            icon={showPassword ? 'eye' : 'eye-off'}
             onPress={toggleShowPassword}
           />
         }
@@ -102,7 +102,7 @@ export default function RegisterScreen() {
         validation={formik.errors.repeatPassword}
         right={
           <TextInput.Icon 
-            icon={showPassword ? 'eye-off' : 'eye'}
+            icon={showRepeatPassword ? 'eye' : 'eye-off'}
             onPress={toggleShowRepeatPassword}
           />
         }

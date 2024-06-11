@@ -80,7 +80,7 @@ export default function LoginScreen() {
         secureTextEntry={showPassword ? false : true}
         right={
           <TextInput.Icon 
-            icon={showPassword ? 'eye-off' : 'eye'}
+            icon={showPassword ? 'eye' : 'eye-off'}
             onPress={toggleShowPassword}
           />
         }

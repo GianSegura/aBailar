@@ -1,15 +1,13 @@
-import { useColorScheme } from 'react-native';
-
-import { HelperText, MD2DarkTheme, MD2LightTheme, TextInput } from 'react-native-paper';
-import { TextInputProps } from 'react-native-paper';
+import { HelperText, TextInput } from 'react-native-paper';
+import { TextInputProps, useTheme  } from 'react-native-paper';
 
 export function ThemedTextInput({ validation = undefined, ...otherProps  }: TextInputProps & { validation?: string}) {
-  const color = useColorScheme();
+  const theme = useTheme();
   return (
     <>
-      <TextInput theme={color === 'dark' ? MD2DarkTheme : MD2LightTheme} mode='outlined' {...otherProps} />
+      <TextInput theme={theme} mode='outlined' {...otherProps} />
       {!!validation && (
-        <HelperText type="error">
+        <HelperText type="error" theme={theme}>
           {validation}
         </HelperText>
       )}
