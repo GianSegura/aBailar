@@ -1,10 +1,10 @@
-import { HelperText  } from 'react-native-paper';
+import { TextInput  } from 'react-native-paper';
 import { router } from 'expo-router';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import { auth } from '@/utils/firebase';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import React from 'react';
+import React, { useState } from 'react';
 import { ThemedView } from '@/components/ThemedView';
 import { StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
@@ -29,6 +29,9 @@ const validationSchema = Yup.object({
 });
 
 export default function LoginScreen() {
+  const [showPassword, setShowPassword] = useState(false);
+  const toggleShowPassword = () => setShowPassword((prevState) => !prevState);
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
@@ -48,7 +51,7 @@ export default function LoginScreen() {
           }
           // SignIn Successfull
           console.log('credentials: ', credentials);
-          router.replace('(logged)')
+          router.replace('(logged)/(posters)')
       });
       } catch (err) {
         if (err === "emailNotVerified") {
@@ -67,22 +70,21 @@ export default function LoginScreen() {
         label="Email"
         value={formik.values.email}
         onChangeText={(text) => formik.setFieldValue("email", text)}
+        validation={formik.errors.email}
       />
-      {!!formik.errors.email && (
-        <HelperText type="error">
-          {formik.errors.email}
-        </HelperText>
-      )}
       <ThemedTextInput
         label="Contraseña"
         value={formik.values.password}
         onChangeText={(text) => formik.setFieldValue("password", text)}
+        validation={formik.errors.password}
+        secureTextEntry={showPassword ? false : true}
+        right={
+          <TextInput.Icon 
+            icon={showPassword ? 'eye-off' : 'eye'}
+            onPress={toggleShowPassword}
+          />
+        }
       />
-      {!!formik.errors.password && (
-        <HelperText type="error">
-          {formik.errors.password}
-        </HelperText>
-      )}
       <ThemedButton onPress={() => formik.handleSubmit()}>
         Inicia sesión
       </ThemedButton>
@@ -99,10 +101,4 @@ const styles = StyleSheet.create({
     gap: 16,
     overflow: 'hidden',
   },
-  // content: {
-  //   flex: 1,
-  //   padding: 32,
-  //   gap: 16,
-  //   overflow: 'hidden',
-  // },
 });

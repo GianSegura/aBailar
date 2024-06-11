@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { router } from 'expo-router';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedTextInput } from '@/components/ThemedTextInput';
@@ -10,6 +10,7 @@ import { doc, setDoc } from "firebase/firestore";
 import * as Yup from "yup";
 import { ThemedView } from '@/components/ThemedView';
 import { db } from '@/utils/firebase';
+import { TextInput } from 'react-native-paper';
 
 interface RegisterFormValues {
   email: string;
@@ -37,6 +38,13 @@ const validationSchema = Yup.object({
 });
 
 export default function RegisterScreen() {
+  const [showPassword, setShowPassword] = useState(false);
+  const toggleShowPassword = () => setShowPassword((prevState) => !prevState);
+
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const toggleShowRepeatPassword = () =>
+      setShowRepeatPassword((prevState) => !prevState);
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
@@ -55,8 +63,8 @@ export default function RegisterScreen() {
             isAdmin: false,
         });
         await sendEmailVerification(credentials.user);
-        signOut(auth);
-        router.replace('login');
+        await signOut(auth);
+        router.replace('login')
         console.log('Se le ha enviado un email, confirme y vuelva a entrar')
       } catch (error) {
           console.log('Error al registrarse, inténtelo más tarde');
@@ -66,20 +74,38 @@ export default function RegisterScreen() {
 
   return (
     <ThemedView style={styles.container}>
+      <ThemedText>Crea una cuenta aBailar</ThemedText>
       <ThemedTextInput
         label="Email"
         value={formik.values.email}
         onChangeText={(text) => formik.setFieldValue("email", text)}
+        validation={formik.errors.email}
       />
       <ThemedTextInput
         label="Contraseña"
         value={formik.values.password}
         onChangeText={(text) => formik.setFieldValue("password", text)}
+        secureTextEntry={showPassword ? false : true}
+        validation={formik.errors.password}
+        right={
+          <TextInput.Icon 
+            icon={showPassword ? 'eye-off' : 'eye'}
+            onPress={toggleShowPassword}
+          />
+        }
       />
       <ThemedTextInput
         label="Repetir Contraseña"
         value={formik.values.repeatPassword}
         onChangeText={(text) => formik.setFieldValue("repeatPassword", text)}
+        secureTextEntry={showRepeatPassword ? false : true}
+        validation={formik.errors.repeatPassword}
+        right={
+          <TextInput.Icon 
+            icon={showPassword ? 'eye-off' : 'eye'}
+            onPress={toggleShowRepeatPassword}
+          />
+        }
       />
       <ThemedButton onPress={() => formik.handleSubmit()}>
         Siguiente
@@ -104,13 +130,6 @@ const styles = StyleSheet.create({
   stepContainer: {
     gap: 8,
     marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
   },
 });
 
