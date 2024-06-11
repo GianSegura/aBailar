@@ -1,11 +1,14 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useContext } from 'react';
+import { UserContext } from '@/utils/context';
 
 export default function HomeScreen() {
+  const userData = useContext(UserContext);
+  console.log('userData: ', userData);
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -17,6 +20,7 @@ export default function HomeScreen() {
       }>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">¡POSTERS!</ThemedText>
+        <ThemedText type="title">{ userData?.userData?.email }</ThemedText>
       </ThemedView>
     </ParallaxScrollView>
   );
