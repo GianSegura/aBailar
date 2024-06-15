@@ -1,41 +1,41 @@
-import { StyleSheet, ScrollView } from 'react-native';
-
-import { ThemedView } from '@/components/ThemedView';
-import { useContext, useEffect, useState } from 'react';
+import { router } from "expo-router";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { db } from '@/utils/firebase';
-import { ThemedText } from '@/components/ThemedText';
-import { UserContext } from '@/utils/context';
-import { ThemedFab } from '@/components/ThemedFab';
-import { router } from 'expo-router';
+import { useEffect, useState } from "react";
+import { ScrollView, StyleSheet } from "react-native";
+
+import { ThemedFab } from "@/components/ThemedFab";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { Tweet } from "@/components/Tweet";
+import { db } from "@/utils/firebase";
 
 export default function TwitterScreen() {
-  const context = useContext(UserContext);
-  const isAdmin = context?.userData.isAdmin;
-  const [tuits, setTuits] = useState<any>([]);
+  const [tweets, setTweets] = useState<any>([]);
 
   useEffect(() => {
     const q = query(collection(db, "tweets"), orderBy("createdAt", "desc"));
     onSnapshot(q, (snapshot) => {
-        const data = snapshot.docs.map((el) => el.data()).filter((n) => n);
-        setTuits(data);
+      const data = snapshot.docs.map((el) => el.data()).filter((n) => n);
+      setTweets(data);
     });
   }, []);
 
   return (
     <ThemedView style={styles.container}>
-      {tuits && tuits.length ? (
-          <ScrollView>
-            {tuits.map(() => (
-              <ThemedText>1</ThemedText>
-            ))}
-          </ScrollView>
-        ) : (
-          <ThemedText>Cargando...</ThemedText>
+      {tweets && tweets.length ? (
+        <ScrollView
+          // TODO: Inicializar el ScrollView in the Bottom
+          contentContainerStyle={{ gap: 10 }}
+          showsVerticalScrollIndicator={false}
+        >
+          {tweets.reverse().map((tweet: any) => (
+            <Tweet key={tweet.id} tweet={tweet} />
+          ))}
+        </ScrollView>
+      ) : (
+        <ThemedText>Cargando...</ThemedText>
       )}
-      {isAdmin && (
-        <ThemedFab icon="plus" onPress={() => router.navigate('create_tweet')}/>
-      )}
+      <ThemedFab icon="plus" onPress={() => router.navigate("create_tweet")} />
     </ThemedView>
   );
 }
@@ -45,6 +45,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 32,
     gap: 16,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
 });

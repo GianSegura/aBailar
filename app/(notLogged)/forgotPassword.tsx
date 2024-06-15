@@ -1,21 +1,22 @@
-import { HelperText  } from 'react-native-paper';
-import { useFormik } from 'formik';
+import { sendPasswordResetEmail } from "firebase/auth";
+import { useFormik } from "formik";
+import React from "react";
+import { StyleSheet } from "react-native";
+import { HelperText } from "react-native-paper";
 import * as Yup from "yup";
-import { auth } from '@/utils/firebase';
-import { sendPasswordResetEmail } from 'firebase/auth';
-import React from 'react';
-import { ThemedView } from '@/components/ThemedView';
-import { StyleSheet } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedTextInput } from '@/components/ThemedTextInput';
-import { ThemedButton } from '@/components/ThemedButton';
+
+import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedTextInput } from "@/components/ThemedTextInput";
+import { ThemedView } from "@/components/ThemedView";
+import { auth } from "@/utils/firebase";
 
 interface ForgotPasswordFormValues {
   email: string;
 }
 
-const initialValues: ForgotPasswordFormValues = { 
-  email: '',
+const initialValues: ForgotPasswordFormValues = {
+  email: "",
 };
 
 const validationSchema = Yup.object({
@@ -31,19 +32,18 @@ export default function ForgotPasswordScreen() {
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
-        await sendPasswordResetEmail(
-          auth,
-          formValue.email,
-        ).then(() => {
-          console.log('En caso de que el correo esté en nuestra BBDD, mail enviado');
-      });
+        await sendPasswordResetEmail(auth, formValue.email).then(() => {
+          console.log(
+            "En caso de que el correo esté en nuestra BBDD, mail enviado"
+          );
+        });
       } catch (err) {
         if (err === "emailNotVerified") {
-          console.log('Email no verificado')
+          console.log("Email no verificado");
         } else {
-          console.log('Usuario o contraseña incorrecta')
+          console.log("Usuario o contraseña incorrecta");
         }
-    }
+      }
       // router.replace('(logged)')
     },
   });
@@ -57,11 +57,12 @@ export default function ForgotPasswordScreen() {
         onChangeText={(text) => formik.setFieldValue("email", text)}
       />
       {!!formik.errors.email && (
-        <HelperText type="error">
-          {formik.errors.email}
-        </HelperText>
+        <HelperText type="error">{formik.errors.email}</HelperText>
       )}
-      <ThemedButton loading={formik.isSubmitting} onPress={() => formik.handleSubmit()}>
+      <ThemedButton
+        loading={formik.isSubmitting}
+        onPress={() => formik.handleSubmit()}
+      >
         Enviar
       </ThemedButton>
     </ThemedView>
@@ -73,6 +74,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 32,
     gap: 16,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
 });

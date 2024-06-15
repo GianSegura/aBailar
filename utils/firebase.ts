@@ -1,6 +1,10 @@
-import { initializeApp, getApp } from "firebase/app";
-import { initializeAuth, getAuth, getReactNativePersistence } from 'firebase/auth';
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
+import { getApp, initializeApp } from "firebase/app";
+import {
+  getAuth,
+  getReactNativePersistence,
+  initializeAuth,
+} from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { Platform } from "react-native";
 
@@ -11,15 +15,18 @@ const firebaseConfig = {
   storageBucket: "abailar-6017e.appspot.com",
   messagingSenderId: "473452662614",
   appId: "1:473452662614:web:06042f08f83597a132d0f7",
-  measurementId: "G-B28M428GHQ"
+  measurementId: "G-B28M428GHQ",
 };
 
 // initialize Firebase App
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app)
+const db = getFirestore(app);
 // initialize Firebase Auth for that app immediately
 const auth = initializeAuth(app, {
-  persistence: Platform.OS !== 'web' ? getReactNativePersistence(ReactNativeAsyncStorage) : undefined
+  persistence:
+    Platform.OS !== "web"
+      ? getReactNativePersistence(ReactNativeAsyncStorage)
+      : undefined,
 });
 
-export { app, auth, getApp, getAuth, db };
+export { app, auth, db, getApp, getAuth };
