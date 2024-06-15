@@ -61,6 +61,7 @@ export default function RegisterScreen() {
             email: formValue.email,
             uid: credentials.user.uid,
             isAdmin: false,
+            isSuperAdmin: false
         });
         await sendEmailVerification(credentials.user);
         await signOut(auth);
@@ -107,7 +108,7 @@ export default function RegisterScreen() {
           />
         }
       />
-      <ThemedButton onPress={() => formik.handleSubmit()}>
+      <ThemedButton loading={formik.isSubmitting} onPress={() => formik.handleSubmit()}>
         Siguiente
       </ThemedButton>
       <ThemedText onPress={() => router.replace('login')}>Ya soy miembro. Iniciar sesión</ThemedText>

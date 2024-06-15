@@ -1,8 +1,6 @@
-import { Stack, Tabs } from 'expo-router';
+import { Stack } from 'expo-router';
 import React from 'react';
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function ListsLayout() {
@@ -35,6 +33,7 @@ export default function ListsLayout() {
     // </Tabs>
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="create_tweet" options={{ headerTitle: '' }}/>
     </Stack>
   );
 }

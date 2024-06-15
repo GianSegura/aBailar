@@ -61,7 +61,7 @@ export default function ForgotPasswordScreen() {
           {formik.errors.email}
         </HelperText>
       )}
-      <ThemedButton onPress={() => formik.handleSubmit()}>
+      <ThemedButton loading={formik.isSubmitting} onPress={() => formik.handleSubmit()}>
         Enviar
       </ThemedButton>
     </ThemedView>

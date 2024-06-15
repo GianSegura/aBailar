@@ -16,7 +16,7 @@ interface LoginFormValues {
   password: string;
 }
 
-const initialValues: LoginFormValues = { 
+const initialValues: LoginFormValues = {
   email: '',
   password: ''
 };
@@ -79,13 +79,13 @@ export default function LoginScreen() {
         validation={formik.errors.password}
         secureTextEntry={showPassword ? false : true}
         right={
-          <TextInput.Icon 
+          <TextInput.Icon
             icon={showPassword ? 'eye' : 'eye-off'}
             onPress={toggleShowPassword}
           />
         }
       />
-      <ThemedButton onPress={() => formik.handleSubmit()}>
+      <ThemedButton loading={formik.isSubmitting} onPress={() => formik.handleSubmit()}>
         Inicia sesión
       </ThemedButton>
       <ThemedText onPress={() => router.replace('register')}>Regístrate</ThemedText>
