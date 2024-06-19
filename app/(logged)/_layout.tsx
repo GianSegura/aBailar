@@ -4,9 +4,14 @@ import React from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const backgroundColor = useThemeColor(
+    { light: undefined, dark: undefined },
+    "background"
+  );
 
   return (
     <Tabs
@@ -14,8 +19,9 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         tabBarShowLabel: false,
-        // tabBarStyle: { paddingBottom: 3 },
         headerShown: false,
+        tabBarStyle: { backgroundColor: backgroundColor },
+        // headerBackgroundContainerStyle: { backgroundColor: backgroundColor },
       }}
     >
       <Tabs.Screen

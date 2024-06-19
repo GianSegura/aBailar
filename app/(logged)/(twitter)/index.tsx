@@ -1,9 +1,7 @@
-import { router } from "expo-router";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 
-import { ThemedFab } from "@/components/ThemedFab";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Tweet } from "@/components/Tweet";
@@ -29,13 +27,12 @@ export default function TwitterScreen() {
           showsVerticalScrollIndicator={false}
         >
           {tweets.reverse().map((tweet: any) => (
-            <Tweet key={tweet.id} tweet={tweet} />
+            <Tweet key={tweet.id} {...tweet} />
           ))}
         </ScrollView>
       ) : (
         <ThemedText>Cargando...</ThemedText>
       )}
-      <ThemedFab icon="plus" onPress={() => router.navigate("create_tweet")} />
     </ThemedView>
   );
 }
@@ -43,7 +40,7 @@ export default function TwitterScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 32,
+    padding: 16,
     gap: 16,
     overflow: "hidden",
   },

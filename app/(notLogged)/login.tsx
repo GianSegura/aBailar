@@ -69,6 +69,7 @@ export default function LoginScreen() {
   return (
     <ThemedView style={styles.container}>
       <ThemedText>Bienvenido a aBailar</ThemedText>
+      // trim a los input, eliminar espaciados en blanco
       <ThemedTextInput
         label="Email"
         value={formik.values.email}
@@ -107,7 +108,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 32,
+    padding: 16,
     gap: 16,
     overflow: "hidden",
   },

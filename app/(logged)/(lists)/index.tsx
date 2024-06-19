@@ -1,12 +1,13 @@
 import { router } from "expo-router";
 import React from "react";
+import { StyleSheet } from "react-native";
 import { List } from "react-native-paper";
 
 import { ThemedView } from "@/components/ThemedView";
 
 export default function ListsScreen() {
   return (
-    <ThemedView>
+    <ThemedView style={styles.container}>
       <List.Item
         title="Sesiones / Salas"
         left={(props) => <List.Icon {...props} icon="office-building" />}
@@ -34,3 +35,12 @@ export default function ListsScreen() {
     </ThemedView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    gap: 16,
+    overflow: "hidden",
+  },
+});

@@ -128,7 +128,7 @@ export default function RegisterScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 32,
+    padding: 16,
     gap: 16,
     overflow: "hidden",
   },
