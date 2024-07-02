@@ -12,7 +12,7 @@ export default function ListsScreen() {
         title="Sesiones / Salas"
         left={(props) => <List.Icon {...props} icon="office-building" />}
         right={(props) => <List.Icon {...props} icon="arrow-right" />}
-        onPress={() => router.navigate("(halls)")}
+        onPress={() => router.navigate("halls")}
       />
       <List.Item
         title="Escuelas"

@@ -14,7 +14,9 @@ export default function ListsLayout() {
       }}
     >
       <Stack.Screen name="index" options={{ headerTitle: "" }} />
-      <Stack.Screen name="(halls)" options={{ headerTitle: "" }} />
+      <Stack.Screen name="halls" options={{ headerTitle: "" }} />
+      <Stack.Screen name="createHall" options={{ headerTitle: "" }} />
+      <Stack.Screen name="provinces" options={{ headerTitle: "" }} />
     </Stack>
   );
 }

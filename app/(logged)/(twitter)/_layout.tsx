@@ -22,12 +22,12 @@ export default function ListsLayout() {
             <Button
               icon="plus"
               children={"Enviar un mensaje"}
-              onPress={() => router.navigate("create_tweet")}
+              onPress={() => router.navigate("createTweet")}
             />
           ),
         }}
       />
-      <Stack.Screen name="create_tweet" options={{ headerTitle: "" }} />
+      <Stack.Screen name="createTweet" options={{ headerTitle: "" }} />
     </Stack>
   );
 }

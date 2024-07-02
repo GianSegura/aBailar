@@ -6,10 +6,9 @@ import { useColor } from "@/hooks/useColor";
 export function ThemedButton({ ...otherProps }: ButtonProps) {
   return (
     <Button
-      mode="contained"
       {...otherProps}
       textColor={useColor("text")}
-      buttonColor={Colors.primary}
+      buttonColor={!otherProps.mode ? Colors.primary : undefined}
     />
   );
 }
